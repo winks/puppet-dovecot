@@ -12,7 +12,8 @@ define dovecot::file (
   $group   = 'root',
   $mode    = '0644',
   $content = undef,
-  $source  = undef
+  $source  = undef,
+  $pkgname = $::dovecot::params::pkgname
 ) {
   file { "/etc/dovecot/${title}":
     owner   => $owner,
@@ -20,7 +21,7 @@ define dovecot::file (
     mode    => $mode,
     content => $content,
     source  => $source,
-    require => Package['dovecot'],
+    require => Package[$pkgname],
     notify  => Service['dovecot'],
   }
 }

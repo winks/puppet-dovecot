@@ -347,3 +347,9 @@ mbox_write_locks = fcntl
 # variables: %{md4}, %{md5}, %{sha1}, %{sha256}, %{sha512}, %{size}.
 # Variables can be truncated, e.g. %{sha256:80} returns only first 80 bits
 #mail_attachment_hash = %{sha1}
+<% if @namespace_inbox -%>
+# workaround for http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=696845
+namespace inbox {
+  inbox = yes
+}
+<% end %>

@@ -47,21 +47,22 @@ class dovecot (
   $sieve                      = '~/.dovecot.sieve',
   $sieve_dir                  = '~/sieve',
   # auth-sql.conf.ext
-  $auth_sql_userdb_static     = undef
-
-) {
-
+  $auth_sql_userdb_static     = undef,
+  #misc
+  $pkgname                    = $::dovecot::params::pkgname,
+  $namespace_inbox            = undef
+) inherits dovecot::params {
   # All files in this scope are dovecot configuration files
   File {
     notify  => Service['dovecot'],
-    require => Package['dovecot'],
+    require => Package[$pkgname],
   }
 
   # Install plugins (sub-packages)
-  dovecot::plugin { $plugins: before => Package['dovecot'] }
+  dovecot::plugin { $plugins: before => Package[$pkgname] }
 
   # Main package and service it provides
-  package { 'dovecot': ensure => installed }
+  package { $pkgname: ensure => installed }
   service { 'dovecot':
     enable    => true,
     ensure    => running,
